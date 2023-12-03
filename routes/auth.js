@@ -14,7 +14,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // Import the validation functions
-const { registerValidation, loginValidation } = require('../validations/validation');
+const { registerValidation, loginValidation } = require('../validations/authValidation');
 
 // Register route
 router.post('/register', async (req, res) => {

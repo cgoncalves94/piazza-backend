@@ -13,12 +13,21 @@ const verifyToken = require('../verifyToken');
 // Importing the checkAndUpdatePostExpiration function from the postUtils module
 const checkAndUpdatePostExpiration = require('../utils/postUtils');
 
+// Importing the post validation functions
+const { createPostValidation, commentValidation } = require('../validations/postValidation');
+
 
 
 // POST /api/posts - Create a new post
 // This route handles the POST request to create a new post. It expects the request body to contain
 // the title, body, and topic of the post. The owner of the post is set to the authenticated user.
 router.post('/', verifyToken, async (req, res) => {
+
+
+    // Validate the post data
+    const { error } = createPostValidation(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
     try {
         const newPost = new Post({
             title: req.body.title, // Set the title of the new post to the value of req.body.title
@@ -94,6 +103,11 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 // the ID of the post and the request body to contain the comment text. The authenticated user's ID and the comment are added to the comments array of the post. 
 router.post('/:id/comment', verifyToken, async (req, res) => {
     try {
+
+        // Validate the comment data
+        const { error } = commentValidation(req.body);
+        if (error) return res.status(400).json(error.details[0].message);
+
         // Check if the post has expired
         const { expired, message } = await checkAndUpdatePostExpiration(req.params.id);
         if (expired) {
@@ -151,6 +165,31 @@ router.get('/expired/:topic', verifyToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+
+// DELETE endpoint to delete a post by ID
+// This endpoint is protected by a token verification middleware
+router.delete('/:id', verifyToken, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        // Check if the post exists
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        // Check if the user requesting the delete is the owner of the post
+        if (post.owner.toString() !== req.user._id) {
+            return res.status(403).json({ message: 'User not authorized to delete this post' });
+        }
+
+        await Post.deleteOne({ _id: req.params.id });
+        res.json({ message: 'Post deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 
 
