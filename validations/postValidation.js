@@ -5,7 +5,8 @@ const createPostValidation = (data) => {
     const schema = Joi.object({
         title: Joi.string().required().min(3).max(256),
         body: Joi.string().required().min(3),
-        topic: Joi.string().required().valid('Politics', 'Health', 'Sport', 'Tech')
+        topic: Joi.string().required().valid('Politics', 'Health', 'Sport', 'Tech'),
+        expirationTime: Joi.number().integer().min(1).required(),
     });
     return schema.validate(data);
 }

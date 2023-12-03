@@ -28,12 +28,24 @@ router.post('/', verifyToken, async (req, res) => {
     const { error } = createPostValidation(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
+    // Convert expirationMinutes to a number before using it
+    const expirationMinutes = Number(req.body.expirationTime);
+
+    // Check if expirationMinutes is a valid number and greater than 0
+    if (isNaN(expirationMinutes) || expirationMinutes <= 0) {
+        return res.status(400).json({ message: "Invalid expiration time" });
+    }
+
+    const expirationTime = new Date(Date.now() + expirationMinutes * 60000); // convert minutes to milliseconds
+
+
     try {
         const newPost = new Post({
             title: req.body.title, // Set the title of the new post to the value of req.body.title
             body: req.body.body, // Set the body of the new post to the value of req.body.body
             topic: req.body.topic, // Set the topic of the new post to the value of req.body.topic
-            owner: req.user._id // Set the owner of the new post to the value of req.user._id
+            owner: req.user._id, // Set the owner of the new post to the value of req.user._id
+            expirationTime: expirationTime // Set the expiration time of the new post to the value of expirationTime
         });
 
         const savedPost = await newPost.save(); // Save the new post to the database
@@ -167,8 +179,7 @@ router.get('/expired/:topic', verifyToken, async (req, res) => {
 });
 
 
-// DELETE endpoint to delete a post by ID
-// This endpoint is protected by a token verification middleware
+// DELETE endpoint to delete a post by ID (ONLY USED FOR TESTING)
 router.delete('/:id', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);

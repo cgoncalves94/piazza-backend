@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
     body: { type: String, required: true },
     topic: { type: String, required: true},
     timestamp: { type: Date, default: Date.now },
-    expirationTime: { type: Date, default: () => Date.now() + 24*60*60*1000 }, // Adds 24 hours to the current time
+    expirationTime: { type: Date, required: true},
     status: { type: String, default: 'Live', enum: ['Live', 'Expired'] },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
