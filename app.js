@@ -17,6 +17,7 @@ const postRoute = require('./routes/posts');
 // Middleware
 app.use(bodyParser.json());
 app.use('/api/users', authRoute);
+app.use('/api/posts', postRoute);
 
 // Homepage route
 app.get('/', (req, res) => {
