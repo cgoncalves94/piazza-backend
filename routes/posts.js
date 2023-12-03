@@ -66,6 +66,19 @@ router.get('/:topic', verifyToken, async (req, res) => {
     }
 });
 
+
+// GET /api/posts - Get all posts
+// This route handles the GET request to retrieve all posts
+router.get('/', verifyToken, async (req, res) => {
+    try {
+        const posts = await Post.find(); // Find all posts in the database
+        res.json(posts); // Send a JSON response with the retrieved posts
+    } catch (err) {
+        res.status(500).json({ message: err.message }); // Send a JSON response with an error message if an error occurs
+    }
+});
+
+
 // PUT /api/posts/:id/like - Like a post
 // This route handles the PUT request to like a post. It expects the request parameter to contain
 // the ID of the post. The authenticated user's ID is added to the likes array of the post if it's not already there. 
@@ -75,6 +88,11 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 
         if (expired) {
             return res.status(400).json({ message });
+        }
+
+        // Check if the user is trying to like their own post
+        if (post.owner.toString() === req.user._id.toString()) {
+            return res.status(400).json({ message: "You cannot like your own post" });
         }
 
         if (!post.likes.includes(req.user._id)) {
@@ -97,6 +115,11 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 
         if (expired) {
             return res.status(400).json({ message });
+        }
+
+        // Check if the user is trying to dislike their own post
+        if (post.owner.toString() === req.user._id.toString()) {
+            return res.status(400).json({ message: "You cannot dislike your own post" });
         }
 
         if (!post.dislikes.includes(req.user._id)) {
@@ -134,7 +157,7 @@ router.post('/:id/comment', verifyToken, async (req, res) => {
         };
 
         await Post.findByIdAndUpdate(req.params.id, { $push: { comments: comment } });
-        res.status(200).json("Comment added successfully");
+        res.status(201).json("Comment added successfully");
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -180,7 +203,7 @@ router.get('/expired/:topic', verifyToken, async (req, res) => {
 
 
 // DELETE endpoint to delete a post by ID (ONLY USED FOR TESTING)
-router.delete('/:id', verifyToken, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
@@ -189,19 +212,12 @@ router.delete('/:id', verifyToken, async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        // Check if the user requesting the delete is the owner of the post
-        if (post.owner.toString() !== req.user._id) {
-            return res.status(403).json({ message: 'User not authorized to delete this post' });
-        }
-
         await Post.deleteOne({ _id: req.params.id });
         res.json({ message: 'Post deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
-
-
 
 
 module.exports = router;
