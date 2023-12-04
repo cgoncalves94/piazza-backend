@@ -20,7 +20,7 @@ jobs:
       INSTANCE_NAME: piazza-app-instance
       IMAGE_NAME: piazza-app-image
       CONTAINER_NAME: piazza-app-container
-      GITHUB_REPO_URL: https://cgoncalves94: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@github.com/cgoncalves94/ccc-coursework.git
+      GITHUB_REPO_URL_WITH_TOKEN: "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
 
     
 
@@ -46,15 +46,9 @@ jobs:
       # Build the Docker image
       - name: Build and deploy to Compute Engine
         run: |-
-          GITHUB_REPO_URL_WITH_TOKEN="https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/cgoncalves94/ccc-coursework.git"
           gcloud --quiet compute ssh ${{ env.INSTANCE_NAME }} --project=${{ env.PROJECT_ID }} --zone=${{ env.INSTANCE_ZONE }} --command \
           'sudo docker rm -f ${{ env.CONTAINER_NAME }} || true; \
-          if [ ! -d node-app-dir ]; then \
-            git clone $GITHUB_REPO_URL_WITH_TOKEN node-app-dir; \
-          else \
-            cd node-app-dir && git pull; \
-          fi; \
-          cd node-app-dir && \
-          sudo docker build --build-arg DB_CONNECTOR=${{ secrets.DB_CONNECTOR }} --build-arg TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} -t ${{ env.IMAGE_NAME }}:latest . && \
-          sudo docker run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest' 
+          rm -rf node-app-dir && git clone $GITHUB_REPO_URL_WITH_TOKEN node-app-dir && cd node-app-dir; \
+          sudo docker build --build-arg DB_CONNECTOR=${{ secrets.DB_CONNECTOR }} --build-arg TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} -t ${{ env.IMAGE_NAME }}:latest . ; \
+          sudo docker run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest'
 
