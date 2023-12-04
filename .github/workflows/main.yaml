@@ -56,5 +56,5 @@ jobs:
           fi; \
           cd node-app-dir && \
           sudo docker build --build-arg DB_CONNECTOR=${{ secrets.DB_CONNECTOR }} --build-arg TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} -t ${{ env.IMAGE_NAME }}:latest . && \
-          sudo docker run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest'
+          sudo docker run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest' 
 
