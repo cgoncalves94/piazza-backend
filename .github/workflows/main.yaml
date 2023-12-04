@@ -17,10 +17,12 @@ jobs:
     env:
       PROJECT_ID: cloud-class-401116
       INSTANCE_ZONE: us-central1-a
-      INSTAMCE_NAME: lab-7-instance
-      IMAGE_NAME: lab-7-image
-      CONTAINER_NAME: lab-7-container
-      GITHUB_REPO_URL: https://cgoncalves94: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@github.com/cgoncalves94/lab7-terraform-node.git
+      INSTAMCE_NAME: piazza-app-instance
+      IMAGE_NAME: piazza-app-image
+      CONTAINER_NAME: piazza-app-container
+      GITHUB_REPO_URL: https://cgoncalves94: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@github.com/cgoncalves94/ccc-coursework.git
+
+    
 
     # Add "id-token" with the intended permissions.
     permissions:
