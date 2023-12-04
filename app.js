@@ -21,7 +21,7 @@ app.use('/api/posts', postRoute);
 
 // Homepage route
 app.get('/', (req, res) => {
-    res.send('Piazza App - Homepage - by Cesar Goncalves');
+    res.send('Piazza App - by Cesar Goncalves');
 });
 
 // Mongoose connection to MongoDB 
