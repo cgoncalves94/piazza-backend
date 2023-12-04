@@ -84,10 +84,17 @@ router.get('/', verifyToken, async (req, res) => {
 // the ID of the post. The authenticated user's ID is added to the likes array of the post if it's not already there. 
 router.put('/:id/like', verifyToken, async (req, res) => {
     try {
-        const { expired, message, post } = await checkAndUpdatePostExpiration(req.params.id);
+        const post = await Post.findById(req.params.id);
+        const { expired, message } = await checkAndUpdatePostExpiration(post);
 
         if (expired) {
+            post.status = 'Expired';
+            post.save();
             return res.status(400).json({ message });
+        }
+
+        if (post.status === 'Expired') {
+            return res.status(400).json("This post has expired.");
         }
 
         // Check if the user is trying to like their own post
@@ -111,10 +118,17 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 // the ID of the post. The authenticated user's ID is added to the dislikes array of the post if it's not already there. 
 router.put('/:id/dislike', verifyToken, async (req, res) => {
     try {
-        const { expired, message, post } = await checkAndUpdatePostExpiration(req.params.id);
+        const post = await Post.findById(req.params.id);
+        const { expired, message } = await checkAndUpdatePostExpiration(post);
 
-        if (expired) {
+        if (expired) { 
+            post.status = 'Expired';
+            post.save(); 
             return res.status(400).json({ message });
+        }
+
+        if (post.status === 'Expired') {
+            return res.status(400).json("This post has expired.");
         }
 
         // Check if the user is trying to dislike their own post
@@ -138,16 +152,22 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 // the ID of the post and the request body to contain the comment text. The authenticated user's ID and the comment are added to the comments array of the post. 
 router.post('/:id/comment', verifyToken, async (req, res) => {
     try {
+        const post = await Post.findById(req.params.id);
+        const { expired, message } = await checkAndUpdatePostExpiration(post);
+
+        if (expired) {
+            post.status = 'Expired';
+            post.save();
+            return res.status(400).json({ message });
+        }
+
+        if (post.status === 'Expired') {
+            return res.status(400).json("This post has expired.");
+        }
 
         // Validate the comment data
         const { error } = commentValidation(req.body);
         if (error) return res.status(400).json(error.details[0].message);
-
-        // Check if the post has expired
-        const { expired, message } = await checkAndUpdatePostExpiration(req.params.id);
-        if (expired) {
-            return res.status(400).json({ message });
-        }
 
         // Proceed to add a comment if the post is not expired
         const comment = {
@@ -200,6 +220,21 @@ router.get('/expired/:topic', verifyToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+
+// PUT /api/posts/:id/expire - Expire a post (ONLY USED FOR TESTING)
+router.put('/:id/expire', verifyToken, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        post.status = 'Expired';
+        await post.save();
+        res.json({ message: 'Post expired for testing' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 
 
 // DELETE endpoint to delete a post by ID (ONLY USED FOR TESTING)
