@@ -17,7 +17,7 @@ jobs:
     env:
       PROJECT_ID: cloud-class-401116
       INSTANCE_ZONE: us-central1-a
-      INSTAMCE_NAME: piazza-app-instance
+      INSTANCE_NAME: piazza-app-instance
       IMAGE_NAME: piazza-app-image
       CONTAINER_NAME: piazza-app-container
       GITHUB_REPO_URL: https://cgoncalves94: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@github.com/cgoncalves94/ccc-coursework.git
@@ -46,7 +46,6 @@ jobs:
       # Build the Docker image
       - name: Build and deploy to Compute engine
         id: build
-        if:
         run: |-
-          gcloud --quiet compute ssh ${{ env.INSTAMCE_NAME }} --project=${{ env.PROJECT_ID }} --zone=${{ env.INSTANCE_ZONE }} --command \
+          gcloud --quiet compute ssh ${{ env.INSTANCE_NAME }} --project=${{ env.PROJECT_ID }} --zone=${{ env.INSTANCE_ZONE }} --command \
             'rm -rf node-app-dir && git clone ${{ env.GITHUB_REPO_URL }} node-app-dir && cd "$_" && sudo docker image build -t ${{ env.IMAGE_NAME }}:latest . && sudo docker rm -f ${{ env.CONTAINER_NAME }} && sudo docker container run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest' 
