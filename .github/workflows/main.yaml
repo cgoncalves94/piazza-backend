@@ -20,7 +20,7 @@ jobs:
       INSTANCE_NAME: piazza-app-instance
       IMAGE_NAME: piazza-app-image
       CONTAINER_NAME: piazza-app-container
-      GITHUB_REPO_URL_WITH_TOKEN: "https://${{ secrets.GITHUB_TOKEN }}@github.com/cgoncalves94/ccc-coursework.git
+      GITHUB_REPO_URL_WITH_TOKEN: "https://${{ secrets.GITHUB_TOKEN }}@github.com/cgoncalves94/ccc-coursework.git"
 
     
 
