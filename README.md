@@ -1,3 +1,4 @@
-Cloud Computing Concepts Coursework
+# Cloud Computing Concepts Coursework
 
-This is an in-progress coursework for the Cloud Computing Concepts. More updates coming soon. Stay tuned!
+This repository contains the coursework for the Cloud Computing Concepts course. It is a work in progress, and more updates will be added soon. Stay tuned for further developments!
+
