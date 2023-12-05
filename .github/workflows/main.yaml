@@ -46,8 +46,12 @@ jobs:
       # Build the Docker image
       - name: Build and deploy to Compute Engine
         run: |-
-          gcloud --quiet compute ssh ${{ env.INSTANCE_NAME }} --project=${{ env.PROJECT_ID }} --zone=${{ env.INSTANCE_ZONE }} --command \
-          'rm -rf node-app-dir && git clone ${{ env.GITHUB_REPO_URL }} node-app-dir && cd "$_" && sudo docker build --build-arg DB_CONNECTOR=${{ secrets.DB_CONNECTOR }} --build-arg TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} -t ${{ env.IMAGE_NAME }}:latest . && sudo docker container run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest'
+          "sudo docker rm -f ${{ env.CONTAINER_NAME }} || true && \
+          rm -rf node-app-dir && \
+          git clone ${{ env.GITHUB_REPO_URL }} node-app-dir && \
+          cd node-app-dir && \
+          sudo docker build --build-arg DB_CONNECTOR='${{ secrets.DB_CONNECTOR }}' --build-arg TOKEN_SECRET='${{ secrets.TOKEN_SECRET }}' -t ${{ env.IMAGE_NAME }}:latest . && \
+          sudo docker container run -d --name ${{ env.CONTAINER_NAME }} --publish 80:3000 ${{ env.IMAGE_NAME }}:latest"
 
 
 
