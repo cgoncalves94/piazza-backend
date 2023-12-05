@@ -16,6 +16,9 @@ const jwt = require('jsonwebtoken');
 // Import the validation functions
 const { registerValidation, loginValidation } = require('../validations/authValidation');
 
+// Importing verify token function
+const verifyToken = require('../utils/verifyToken');
+
 // Register route
 router.post('/register', async (req, res) => {
 
@@ -96,7 +99,7 @@ router.post('/login', async (req, res) => {
 
 
 // DELETE endpoint to delete an user by ID (ONLY USED FOR TESTING)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
 

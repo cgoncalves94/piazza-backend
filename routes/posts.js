@@ -238,7 +238,7 @@ router.put('/:id/expire', verifyToken, async (req, res) => {
 
 
 // DELETE endpoint to delete a post by ID (ONLY USED FOR TESTING)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
