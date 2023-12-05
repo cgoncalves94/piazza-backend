@@ -13,6 +13,14 @@ const bodyParser = require('body-parser');
 const authRoute = require('./routes/auth');
 const postRoute = require('./routes/posts');
 
+// CORS configuration for a single route
+const corsOptions = {
+    origin: 'http://localhost:3000', // adjust if your app is hosted on a different port
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    };
+
+  app.use(cors(corsOptions)); // This will enable CORS for all routes
+
 
 // Middleware
 app.use(bodyParser.json());

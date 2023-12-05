@@ -11,7 +11,7 @@ const Post = require('../models/Post');
 const verifyToken = require('../utils/verifyToken');
 
 // Importing the checkAndUpdatePostExpiration function from the postUtils module
-const checkAndUpdatePostExpiration = require('../utils/postUtils');
+const checkPostExpiration = require('../utils/postUtils');
 
 // Importing the post validation functions
 const { createPostValidation, commentValidation } = require('../validations/postValidation');
@@ -85,7 +85,7 @@ router.get('/', verifyToken, async (req, res) => {
 router.put('/:id/like', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkAndUpdatePostExpiration(post);
+        const { expired, message } = await checkPostExpiration(post);
 
         if (expired) {
             post.status = 'Expired';
@@ -119,7 +119,7 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 router.put('/:id/dislike', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkAndUpdatePostExpiration(post);
+        const { expired, message } = await checkPostExpiration(post);
 
         if (expired) { 
             post.status = 'Expired';
@@ -153,7 +153,7 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 router.post('/:id/comment', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkAndUpdatePostExpiration(post);
+        const { expired, message } = await checkPostExpiration(post);
 
         if (expired) {
             post.status = 'Expired';

@@ -1,5 +1,5 @@
-// Defining an asynchronous function to check and update post expiration
-async function checkAndUpdatePostExpiration(post) {
+// Defining an asynchronous function to check post expiration
+async function checkPostExpiration(post) {
 
 
     // Getting the current time
@@ -17,4 +17,4 @@ async function checkAndUpdatePostExpiration(post) {
 }
 
 // Exporting the function directly
-module.exports = checkAndUpdatePostExpiration;
+module.exports = checkPostExpiration;
