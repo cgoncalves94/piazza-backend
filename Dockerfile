@@ -12,9 +12,11 @@ RUN npm install
 # Copy the rest of your app's source code from your host to your image filesystem.
 COPY . .
 
-# Accept build arguments 
+# Accept build arguments and set them as environment variables
 ARG DB_CONNECTOR
 ARG TOKEN_SECRET
+ENV DB_CONNECTOR=${DB_CONNECTOR}
+ENV TOKEN_SECRET=${TOKEN_SECRET}
 
 # Expose the port the app runs on
 EXPOSE 3000
