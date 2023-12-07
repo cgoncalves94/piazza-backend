@@ -104,9 +104,10 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 
         if (!post.likes.includes(req.user._id)) {
             await post.updateOne({ $push: { likes: req.user._id } });
-            res.status(200).json("The post has been liked"); // Send a success message
+            const updatedPost = await Post.findById(req.params.id); // Fetch the post again to get the updated likes
+            res.status(200).json({ likes: updatedPost.likes.length }); // Send the updated likes count
         } else {
-            res.status(400).json("You already liked this post"); // Send an error message if the user has already liked the post
+            res.status(400).json("You already liked this post");
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -138,9 +139,10 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 
         if (!post.dislikes.includes(req.user._id)) {
             await post.updateOne({ $push: { dislikes: req.user._id } });
-            res.status(200).json("The post has been disliked"); // Send a success message
+            const updatedPost = await Post.findById(req.params.id); // Fetch the post again to get the updated dislikes
+            res.status(200).json({ dislikes: updatedPost.dislikes.length }); // Send the updated dislikes count
         } else {
-            res.status(400).json("You already disliked this post"); // Send an error message if the user has already disliked the post
+            res.status(400).json("You already disliked this post");
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
