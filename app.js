@@ -17,7 +17,7 @@ const postRoute = require('./routes/posts');
 const cors = require('cors');
 
 
-// Define CORS options if necessary
+// Define CORS options if necessary (this was necessary for me test the app wih my frontend in React which is under development)
 const corsOptions = {
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200,
@@ -33,7 +33,7 @@ app.use('/api/posts', postRoute);
 
 // Homepage route
 app.get('/', (req, res) => {
-    res.send('New Build - Piazza App - by Cesar Goncalves');
+    res.send('Piazza App - by Cesar Goncalves');
 });
 
 // Mongoose connection to MongoDB 

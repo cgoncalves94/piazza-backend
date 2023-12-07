@@ -19,5 +19,6 @@ const commentValidation = (data) => {
     return schema.validate(data);
 }
 
+// Exporting functions
 module.exports.createPostValidation = createPostValidation;
 module.exports.commentValidation = commentValidation;

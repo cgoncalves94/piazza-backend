@@ -255,4 +255,5 @@ router.delete('/:id', verifyToken, async (req, res) => {
 });
 
 
+// Exporting the router object
 module.exports = router;
