@@ -99,7 +99,7 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 
         // Check if the user is trying to like their own post
         if (post.owner.toString() === req.user._id.toString()) {
-            return res.status(400).json({ message: "You cannot like your own post" });
+            return res.status(400).json("You cannot like your own post");
         }
 
         if (!post.likes.includes(req.user._id)) {
@@ -133,7 +133,7 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 
         // Check if the user is trying to dislike their own post
         if (post.owner.toString() === req.user._id.toString()) {
-            return res.status(400).json({ message: "You cannot dislike your own post" });
+            return res.status(400).json("You cannot dislike your own post");
         }
 
         if (!post.dislikes.includes(req.user._id)) {
