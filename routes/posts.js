@@ -71,12 +71,15 @@ router.get('/:topic', verifyToken, async (req, res) => {
 // This route handles the GET request to retrieve all posts
 router.get('/', verifyToken, async (req, res) => {
     try {
-        const posts = await Post.find(); // Find all posts in the database
+        const posts = await Post.find() // Find all posts in the database
+                                .populate('owner', 'name') // Replace 'owner' field with user's name from User model
+                                .exec(); // Execute the query
         res.json(posts); // Send a JSON response with the retrieved posts
     } catch (err) {
         res.status(500).json({ message: err.message }); // Send a JSON response with an error message if an error occurs
     }
 });
+
 
 
 // PUT /api/posts/:id/like - Like a post
