@@ -88,12 +88,12 @@ router.get('/', verifyToken, async (req, res) => {
 router.put('/:id/like', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkPostExpiration(post);
+        const { expired } = await checkPostExpiration(post);
 
         if (expired) {
             post.status = 'Expired';
             post.save();
-            return res.status(400).json({ message });
+            return res.status(400).json("This post has expired.");
         }
 
         if (post.status === 'Expired') {
@@ -123,12 +123,12 @@ router.put('/:id/like', verifyToken, async (req, res) => {
 router.put('/:id/dislike', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkPostExpiration(post);
+        const { expired } = await checkPostExpiration(post);
 
         if (expired) { 
             post.status = 'Expired';
             post.save(); 
-            return res.status(400).json({ message });
+            return res.status(400).json("This post has expired.");
         }
 
         if (post.status === 'Expired') {
@@ -158,12 +158,12 @@ router.put('/:id/dislike', verifyToken, async (req, res) => {
 router.post('/:id/comment', verifyToken, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        const { expired, message } = await checkPostExpiration(post);
+        const { expired } = await checkPostExpiration(post);
 
         if (expired) {
             post.status = 'Expired';
             post.save();
-            return res.status(400).json({ message });
+            return res.status(400).json("This post has expired.");
         }
 
         if (post.status === 'Expired') {

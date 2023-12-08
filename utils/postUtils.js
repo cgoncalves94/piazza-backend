@@ -9,7 +9,7 @@ async function checkPostExpiration(post) {
     // and the post is not already expired
     if (currentTime >= post.expirationTime && post.status !== 'Expired') {
         // Indicate that the post should be updated to 'Expired'
-        return { expired: true, message: "This post has expired." };
+        return { expired: true};
     }
 
     // Returning the result indicating that the post is not expired
