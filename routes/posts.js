@@ -72,7 +72,7 @@ router.get('/:topic', verifyToken, async (req, res) => {
 router.get('/', verifyToken, async (req, res) => {
     try {
         const posts = await Post.find() // Find all posts in the database
-                                .populate('owner', 'name') // Replace 'owner' field with user's name from User model
+                                .populate('owner', 'username') // Replace 'owner' field with user's name from User model
                                 .exec(); // Execute the query
         res.json(posts); // Send a JSON response with the retrieved posts
     } catch (err) {
