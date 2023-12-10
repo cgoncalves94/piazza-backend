@@ -17,9 +17,9 @@ const postRoute = require('./routes/posts');
 const cors = require('cors');
 
 
-// Define CORS options if necessary (this was necessary for me test the app wih my frontend in React which is under development)
+// Cors options
 const corsOptions = {
-    origin: 'http://34.171.132.222:3000', // Match the request origin exactly
+    origin: 'http://34.171.132.222:3000', // Match the request origin exactly (frontend URL)
     optionsSuccessStatus: 200,
     credentials: true, // If your frontend is sending credentials like cookies or auth headers
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Ensure all needed methods are allowed
