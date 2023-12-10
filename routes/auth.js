@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../validations/authValidation');
 
 // Importing verify token function
-const verifyToken = require('../utils/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 // Register route
 router.post('/register', async (req, res) => {
