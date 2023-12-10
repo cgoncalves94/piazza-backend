@@ -59,10 +59,32 @@ router.post('/', verifyToken, async (req, res) => {
 // This route handles the GET request to retrieve posts based on a specific topic
 router.get('/:topic', verifyToken, async (req, res) => {
     try {
-        const posts = await Post.find({ topic: req.params.topic }); // Find posts in the database that match the specified topic
-        res.json(posts); // Send a JSON response with the retrieved posts
+        const posts = await Post.find()
+                                .populate('owner', 'username') // Populates the owner of the post
+                                .populate({ 
+                                    path: 'comments.user', 
+                                    select: 'username -_id' // Populates the username of the commenter, excluding the _id
+                                })
+                                .lean() // Converts Mongoose Documents into plain JavaScript objects
+                                .exec(); // Executes the query
+
+        // Add comments count and modify the comments to include only the necessary data
+        posts.forEach(post => {
+            post.commentsCount = post.comments.length;
+            post.comments = post.comments.map(comment => {
+                return {
+                    _id: comment._id,
+                    comment: comment.comment,
+                    user: comment.user.username, 
+                    timestamp: comment.timestamp
+                };
+            });
+        });
+
+        res.json(posts); // Sends a JSON response with the retrieved posts
+
     } catch (err) {
-        res.status(500).json({ message: err.message }); // Send a JSON response with an error message if an error occurs
+        res.status(500).json({ message: err.message }); // Sends a JSON response with an error message if an error occurs
     }
 });
 
