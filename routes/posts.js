@@ -59,7 +59,7 @@ router.post('/', verifyToken, async (req, res) => {
 // This route handles the GET request to retrieve posts based on a specific topic
 router.get('/:topic', verifyToken, async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({ topic: req.params.topic }) // Find posts in the database that match the specified topic
                                 .populate('owner', 'username') // Populates the owner of the post
                                 .populate({ 
                                     path: 'comments.user', 
