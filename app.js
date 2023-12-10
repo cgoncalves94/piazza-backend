@@ -19,9 +19,11 @@ const cors = require('cors');
 
 // Define CORS options if necessary (this was necessary for me test the app wih my frontend in React which is under development)
 const corsOptions = {
-    origin: 'http://34.171.132.222:3000/',
+    origin: 'http://34.171.132.222:3000', // Match the request origin exactly
     optionsSuccessStatus: 200,
-    };
+    credentials: true, // If your frontend is sending credentials like cookies or auth headers
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Ensure all needed methods are allowed
+};
 
 
   // Then use the cors middleware before your routes
