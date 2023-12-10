@@ -19,9 +19,10 @@ const cors = require('cors');
 
 // Define CORS options if necessary (this was necessary for me test the app wih my frontend in React which is under development)
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://34.171.132.222:3000/',
     optionsSuccessStatus: 200,
     };
+
 
   // Then use the cors middleware before your routes
 app.use(cors(corsOptions));
