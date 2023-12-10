@@ -68,25 +68,38 @@ router.get('/:topic', verifyToken, async (req, res) => {
 
 
 // GET /api/posts - Get all posts
-// This route handles the GET request to retrieve all posts
+// This route handles the GET request to retrieve all posts (Used for the fronted)
 router.get('/', verifyToken, async (req, res) => {
     try {
         const posts = await Post.find()
-                                .populate('owner', 'username') // Replace 'owner' field with user's name from User model
-                                .lean() // Convert Mongoose Documents into plain JavaScript objects
-                                .exec(); // Execute the query
+                                .populate('owner', 'username') // Populates the owner of the post
+                                .populate({ 
+                                    path: 'comments.user', 
+                                    select: 'username -_id' // Populates the username of the commenter, excluding the _id
+                                })
+                                .lean() // Converts Mongoose Documents into plain JavaScript objects
+                                .exec(); // Executes the query
 
-        // Add comments count to each post
+        // Add comments count and modify the comments to include only the necessary data
         posts.forEach(post => {
             post.commentsCount = post.comments.length;
+            post.comments = post.comments.map(comment => {
+                return {
+                    _id: comment._id,
+                    comment: comment.comment,
+                    user: comment.user.username, 
+                    timestamp: comment.timestamp
+                };
+            });
         });
 
-        res.json(posts); // Send a JSON response with the retrieved posts
+        res.json(posts); // Sends a JSON response with the retrieved posts
 
     } catch (err) {
-        res.status(500).json({ message: err.message }); // Send a JSON response with an error message if an error occurs
+        res.status(500).json({ message: err.message }); // Sends a JSON response with an error message if an error occurs
     }
 });
+
 
 
 
