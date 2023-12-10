@@ -8,7 +8,7 @@ const router = express.Router();
 const Post = require('../models/Post');
 
 // Importing verify token function
-const verifyToken = require('../utils/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 // Importing the checkAndUpdatePostExpiration function from the postUtils module
 const checkPostExpiration = require('../utils/postUtils');
