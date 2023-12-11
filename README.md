@@ -2,24 +2,26 @@
 
 ## Project Description
 
-The Piazza backend is built using Node.js and Express, forming the core logic of the Piazza social media platform. It facilitates RESTful API services, ensuring secure, scalable, and efficient server-side interactions with a MongoDB database. This backend was developed as part of the coursework for Cloud Computing Concepts at Birkbeck University.
+The Piazza backend is crafted using Node.js and Express, serving as the central logic for the Piazza social media platform. It offers RESTful API services, integrating secure, scalable, and efficient server-side operations with a MongoDB database. Developed as part of the Cloud Computing Concepts module at Birkbeck University, this backend illustrates modern cloud application development techniques.
 
 ## Key Features
 
-- **JWT Authentication:** Securely handles user sessions with JSON Web Tokens.
-- **MongoDB Integration:** Leverages MongoDB for efficient data storage and retrieval.
-- **RESTful API Endpoints:** A complete suite of endpoints for user and post management.
-- **Data Validation:** Ensures robust input validation to prevent security breaches.
+- **JWT Authentication:** Manages user sessions and secures endpoints with JSON Web Tokens.
+- **MongoDB Integration:** Efficient data storage and retrieval with MongoDB, a powerful NoSQL database.
+- **RESTful API Endpoints:** Comprehensive API endpoints for managing users, posts, and interactions.
+- **Data Validation:** Robust validation with Joi to maintain data integrity and prevent security issues.
+- **Docker Integration:** Containerized application deployment ensuring consistency across environments.
+- **CI/CD with GitHub Actions:** Automated workflows for continuous integration and deployment, improving code quality and deployment efficiency.
 
 ## Technologies and Libraries
 
-- **Node.js:** The JavaScript runtime environment for building the server-side application.
-- **Express.js:** The web application framework for creating API endpoints.
-- **MongoDB:** The database for storing application data.
-- **Mongoose:** Object Data Modeling (ODM) library for MongoDB and Node.js.
-- **Bcrypt.js:** For password hashing.
-- **Dotenv:** To load environment variables from an `.env` file into `process.env`.
-- **Joi:** For schema description and data validation.
+- **Node.js & Express.js:** Core technologies for building and running the web application.
+- **MongoDB & Mongoose:** Database management and schema modeling.
+- **Bcrypt.js:** Password hashing for increased security.
+- **Dotenv:** Environment variable management.
+- **Joi:** Data validation library.
+- **Docker:** Application containerization.
+- **GitHub Actions:** Automation of workflows for testing, building, and deploying applications.
 
 ## API Endpoints
 
@@ -34,13 +36,20 @@ The Piazza backend is built using Node.js and Express, forming the core logic of
 - `PUT /api/posts/:id/dislike`: Records a 'dislike' on a post.
 - `POST /api/posts/:id/comment`: Adds a comment to a post.
 
-## Setup and Installation
+## Docker Deployment
 
-1. Clone the repository to your local machine.
-2. Navigate to the cloned directory.
-3. Install the necessary npm packages using `npm install`.
-4. Create an `.env` file with the required environment variables.
-5. Start the server with `npm start`.
+To containerize the Piazza backend:
+
+1. Ensure Docker is installed on your system.
+2. Build the Docker image using `docker build -t piazza-backend .`
+3. Run the container with `docker run -p 80:3000 piazza-backend`
+
+## Continuous Integration and Deployment
+
+This project uses GitHub Actions for CI/CD to automate testing and deployment. The `.github/workflows` directory contains the workflow definitions that:
+
+- Build and push the Docker image to a container registry.
+- Deploy the application to the production environment upon merge to the main branch.
 
 ## Environment Variables
 
@@ -54,5 +63,5 @@ The Piazza backend is built using Node.js and Express, forming the core logic of
 
 ## Credits
 
-This backend application was developed by Cesar Goncalves as part of the Cloud Computing Concepts module at BSc Computer Science, Birkbeck University. It is intended to demonstrate the practical application of cloud-based service deployment and management.
+Developed by Cesar Goncalves for the Cloud Computing Concepts module at BSc Computer Science, Birkbeck University. This project encompasses the application of cloud computing principles, containerization, and continuous delivery practices to create a scalable, maintainable, and secure backend service.
 
