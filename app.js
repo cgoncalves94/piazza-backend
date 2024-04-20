@@ -19,8 +19,7 @@ const cors = require('cors');
 
 // Cors options
 const corsOptions = {
-    origin: 'http://34.171.132.222:3000', // Match the request origin exactly (frontend URL)
-    optionsSuccessStatus: 200,
+    origin: ['https://cgoncalves94.github.io', 'http://localhost:3001'], // Match the request origin exactly (frontend URL)    optionsSuccessStatus: 200,
     credentials: true, // If your frontend is sending credentials like cookies or auth headers
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Ensure all needed methods are allowed
 };
@@ -29,7 +28,6 @@ const corsOptions = {
   // Then use the cors middleware before your routes
 app.use(cors(corsOptions));
 
-// Middleware
 app.use(bodyParser.json());
 app.use('/api/users', authRoute);
 app.use('/api/posts', postRoute);

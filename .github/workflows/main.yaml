@@ -4,11 +4,8 @@
 # documentation.
 name: Build and Deploy
 on:
-  push:
-    branches:
-      - 'master'
-  release:
-    types: [created]
+  # Trigger the workflow manually
+  workflow_dispatch:
 
 jobs:
   setup-build-publish-deploy:
