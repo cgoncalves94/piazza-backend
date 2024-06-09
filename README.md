@@ -2,7 +2,7 @@
 
 ## Project Description
 
-The Piazza backend, developed using Node.js and Express, acts as the core logic for the Piazza social media platform. This backend, a vital component of our full-stack application, offers RESTful API services, combining secure, scalable, and efficient server-side operations with a MongoDB database. As part of the Cloud Computing Concepts module at Birkbeck University, this project not only demonstrates modern cloud application development techniques but also integrates seamlessly with our frontend. For a comprehensive view of the entire application, visit the frontend repository at [https://github.com/cgoncalves94/piazza-frontend].
+The Piazza backend, developed using Node.js and Express, acts as the core logic for the Piazza social media platform. This backend, a vital component of our full-stack application, offers RESTful API services, combining secure, scalable, and efficient server-side operations with a MongoDB database. As part of the Cloud Computing Concepts module at Birkbeck University, this project not only demonstrates modern cloud application development techniques but also integrates seamlessly with our frontend. For a comprehensive view of the entire application, visit the [frontend repository](https://github.com/cgoncalves94/piazza-frontend).
 
 ## Key Features
 
